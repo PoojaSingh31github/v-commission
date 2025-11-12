@@ -1,0 +1,72 @@
+import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
+import { motion, AnimatePresence } from "framer-motion";
+
+
+const Layout = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div className="relative max-h-screen  bg-gray-50 flex overflow-auto">
+      {/* Sidebar + overlay animation */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <>
+            {isMobile && (
+              <motion.div
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm z-30"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsSidebarOpen(false)}
+              />
+            )}
+
+            <motion.aside
+              initial={{ x: isMobile ? -300 : 0, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: isMobile ? -300 : 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-white shadow-2xl md:shadow-none rounded-r-4xl md:rounded-none overflow-hidden`}
+            >
+              <Sidebar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Main content */}
+      <motion.div
+        className="flex-1 flex flex-col transition-all duration-300"
+        // animate={{
+        //   marginLeft: !isMobile && isSidebarOpen ? 256 : 0,
+        // }}
+      >
+        <Header
+          onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          isSidebarOpen={isSidebarOpen}
+          userName="John Doe"
+          notificationCount={3}
+        />
+
+        <main className="bg-[#F6F6F6] flex-1 overflow-y-auto p-6 transition-all duration-300">
+          <Outlet />
+        </main>
+
+        <Footer />
+      </motion.div>
+    </div>
+  );
+};
+
+export default Layout;

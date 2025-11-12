@@ -1,0 +1,19 @@
+@import "tailwindcss";
+body {
+  margin: 0;
+  padding: 0;
+  background: #f6f6f6;
+}
+
+/* Target vertical scrollbar (default direction is y-axis) */
+*::-webkit-scrollbar {
+  width: 4px; /* was 7px */
+}
+
+/* Target horizontal scrollbar specifically */
+*::-webkit-scrollbar:horizontal {
+  height: 3px; /* was 4px */
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(144, 197, 26, 0.8);
+}
