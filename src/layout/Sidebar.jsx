@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Minus, Plus, X } from "lucide-react";
-import india from "../assets/india.jpg"
-import setting from "../assets/setting.jpg"
-import us from "../assets/us.jpg"
+import india from "../assets/india.jpg";
+import setting from "../assets/setting.jpg";
+import us from "../assets/us.jpg";
 
 const Sidebar = ({ onMenuClick }) => {
   const location = useLocation();
@@ -12,7 +12,7 @@ const Sidebar = ({ onMenuClick }) => {
     {
       id: "amazon",
       title: "Amazon",
-      iconClass: us, // <-- added class for icon
+      iconClass: us,
       isOpen: true,
       items: [
         { label: "Dashboard", path: "/amazon/dashboard" },
@@ -27,7 +27,7 @@ const Sidebar = ({ onMenuClick }) => {
     {
       id: "d2c",
       title: "D2C Ecom",
-      iconClass: india, // <-- updated
+      iconClass: india,
       isOpen: false,
       items: [
         { label: "Dashboard", path: "/d2c/dashboard" },
@@ -42,7 +42,7 @@ const Sidebar = ({ onMenuClick }) => {
     {
       id: "integration",
       title: "Integration",
-      iconClass: setting, // <-- replaced ⚙️ with icon class
+      iconClass: setting,
       isOpen: false,
       items: [
         { label: "Postback", path: "/integration/postback" },
@@ -63,7 +63,7 @@ const Sidebar = ({ onMenuClick }) => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="h-screen bg-pink-200 overflow-y-auto rounded-tr-4xl rounded-br-4xl shadow-md">
+    <div className="h-screen bg-gradient-to-br from-pink-50 via-white to-blue-50 overflow-y-auto rounded-tr-4xl rounded-br-4xl shadow-md border border-pink-100">
       <div className="p-4 flex justify-between items-center">
         <Link to="/" className="block">
           <img
@@ -74,7 +74,7 @@ const Sidebar = ({ onMenuClick }) => {
         </Link>
         <X
           onClick={onMenuClick}
-          className="md:hidden  w-6 h-6 text-gray-400 transition-all duration-300 mr-4 cursor-pointer"
+          className="md:hidden w-6 h-6 text-pink-400 hover:text-pink-600 cursor-pointer transition-all duration-300 mr-4"
         />
       </div>
 
@@ -85,12 +85,16 @@ const Sidebar = ({ onMenuClick }) => {
               onClick={() => toggleSection(section.id)}
               className={`w-full cursor-pointer flex items-center justify-between px-3 py-1 rounded-lg transition-all duration-300 ${
                 section.isOpen
-                  ? "bg-[#80b415] text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100"
+                  ? "bg-gradient-to-r from-pink-400 to-blue-500 text-white shadow-lg"
+                  : "bg-white text-pink-600 hover:bg-pink-50"
               }`}
             >
               <div className="flex items-center gap-3">
-                <img  className="md:w-7 md:h-7  w-5 h-5 rounded-full" src={section.iconClass} alt="" />
+                <img
+                  className="md:w-7 md:h-7 w-5 h-5 rounded-full"
+                  src={section.iconClass}
+                  alt=""
+                />
                 <span className="font-semibold">{section.title}</span>
               </div>
               {section.isOpen ? (
@@ -102,9 +106,7 @@ const Sidebar = ({ onMenuClick }) => {
 
             <div
               className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                section.isOpen
-                  ? "max-h-96 opacity-100 mt-2"
-                  : "max-h-0 opacity-0"
+                section.isOpen ? "max-h-96 opacity-100 mt-2" : "max-h-0 opacity-0"
               }`}
             >
               <div className="space-y-1 pl-4">
@@ -114,15 +116,15 @@ const Sidebar = ({ onMenuClick }) => {
                     to={item.path}
                     className={`w-full text-sm flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
                       isActive(item.path)
-                        ? "text-[#80b415] font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
+                        ? "text-white font-medium bg-gradient-to-r from-pink-400 to-blue-500 shadow"
+                        : "text-pink-600 hover:bg-pink-100"
                     }`}
                   >
                     <span
                       className={`w-2 h-2 rounded-full border-2 ${
                         isActive(item.path)
-                          ? "border-[#80b415] bg-[#80b415]"
-                          : "border-gray-400"
+                          ? "border-white bg-white"
+                          : "border-pink-400"
                       }`}
                     ></span>
                     <span>{item.label}</span>

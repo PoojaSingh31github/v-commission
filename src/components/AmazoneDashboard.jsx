@@ -58,8 +58,8 @@ const AmazonDashboard = () => {
       change: "-45%",
       changePositive: false,
       icon: <MousePointerClick className="text-white h-5" />,
-      iconBg: "bg-[#7FB800]",
-      chartColor: "#22D3EE",
+      iconBg: "bg-blue-400",
+      chartColor: "#2563EB",
       chartData: [30, 25, 36, 30, 45, 35, 40, 30],
     },
     {
@@ -69,8 +69,8 @@ const AmazonDashboard = () => {
       change: "+12%",
       changePositive: true,
       icon: <Eye className="text-white h-5" />,
-      iconBg: "bg-[#9ABF3C]",
-      chartColor: "#22D3EE",
+      iconBg: "bg-blue-600",
+      chartColor: "#2563EB",
       chartData: [20, 30, 45, 35, 50, 40, 35, 25],
     },
     {
@@ -80,9 +80,9 @@ const AmazonDashboard = () => {
       change: "+22%",
       changePositive: true,
       icon: <DollarSign className="text-white h-5" />,
-      iconBg: "bg-[#FFB800]",
+      iconBg: "bg-green-400",
       chartType: "bar",
-      chartColor: "#FFB800",
+      chartColor: "#22D3EE",
       chartData: [5, 10, 15, 8, 12, 18, 14, 10, 6, 12, 15, 8],
     },
     {
@@ -92,8 +92,8 @@ const AmazonDashboard = () => {
       change: "+0.5%",
       changePositive: true,
       icon: <TrendingUp className="text-white h-5" />,
-      iconBg: "bg-[#6366F1]",
-      chartColor: "#7FB800",
+      iconBg: "bg-purple-400",
+      chartColor: "#A78BFA",
       chartData: [15, 25, 20, 30, 35, 28, 40, 35],
     },
     {
@@ -103,8 +103,8 @@ const AmazonDashboard = () => {
       change: "+65%",
       changePositive: true,
       icon: <ShoppingCart className="text-white h-5" />,
-      iconBg: "bg-[#FF6B6B]",
-      chartColor: "#9CA3AF",
+      iconBg: "bg-pink-400",
+      chartColor: "#FB7185",
       chartData: [10, 15, 25, 20, 15, 10, 8, 5],
       chartDashed: true,
     },
@@ -115,8 +115,8 @@ const AmazonDashboard = () => {
       change: "+65%",
       changePositive: true,
       icon: <Package className="text-white h-5" />,
-      iconBg: "bg-[#4B5563]",
-      chartColor: "#9CA3AF",
+      iconBg: "bg-gray-700",
+      chartColor: "#64748B",
       chartData: [10, 15, 25, 20, 15, 10, 8, 5],
       chartDashed: true,
     },
@@ -127,9 +127,9 @@ const AmazonDashboard = () => {
       change: "+68%",
       changePositive: true,
       icon: <Banknote className="text-white h-5" />,
-      iconBg: "bg-[#A4C639]",
+      iconBg: "bg-green-500",
       chartType: "bar",
-      chartColor: "#FFB800",
+      chartColor: "#22D3EE",
       chartData: [8, 12, 15, 10, 14, 18, 12, 8, 10, 15, 12, 8],
     },
     {
@@ -139,9 +139,9 @@ const AmazonDashboard = () => {
       change: "+0.12",
       changePositive: true,
       icon: <Coins className="text-white h-5" />,
-      iconBg: "bg-[#4B5563]",
+      iconBg: "bg-blue-700",
       chartType: "bar",
-      chartColor: "#FFB800",
+      chartColor: "#2563EB",
       chartData: [6, 10, 14, 8, 12, 16, 10, 8, 12, 15, 10, 6],
     },
   ];
@@ -286,8 +286,8 @@ const AmazonDashboard = () => {
 
   return (
     <div className="">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Amazon Dashboard</h1>
+      <div className="text-3xl font-extrabold text-pink-600 mb-3 drop-shadow-sm">
+        <h1 className="">Amazon Dashboard</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

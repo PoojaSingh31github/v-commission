@@ -43,7 +43,6 @@ function ProductFilterDropdown({ onApply }) {
   const [categories, setCategories] = useState([]);
   const ref = useRef();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) setOpen(false);
@@ -66,89 +65,88 @@ function ProductFilterDropdown({ onApply }) {
   return (
     <div className="relative" ref={ref}>
       <button
-        className="py-2 px-7 bg-[#90c51a] hover:bg-[#7DAC15] transition-all text-white font-semibold text-md rounded-lg shadow-sm flex items-center gap-2"
+        className="py-2 px-7 bg-gradient-to-r from-pink-400 via-pink-500 to-blue-600 text-white font-semibold text-md rounded-lg shadow-lg flex items-center gap-2 hover:from-pink-500 hover:to-blue-700 transition"
         onClick={() => setOpen((o) => !o)}
         type="button"
       >
         Filter <span className="ml-1">▼</span>
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl p-5 z-50 max-h-[70vh] overflow-auto border border-gray-100">
-          {/* Sort By */}
+        <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl p-5 z-50 max-h-[70vh] overflow-auto border border-pink-100">
           <div>
-            <h4 className="text-base font-semibold mb-2 text-gray-700">Sort By</h4>
+            <h4 className="text-base font-semibold mb-2 text-pink-600">Sort By</h4>
             <div className="space-y-1">
               {SORT_OPTIONS.map((opt) => (
-                <label key={opt} className="flex items-center gap-2 cursor-pointer">
+                <label key={opt} className="flex items-center gap-2 cursor-pointer text-blue-700">
                   <input
                     type="radio"
                     name="sort"
                     value={opt}
                     checked={sort === opt}
                     onChange={() => setSort(opt)}
+                    className="accent-pink-500"
                   />
                   <span>{opt}</span>
                 </label>
               ))}
             </div>
           </div>
-          {/* Geo */}
           <div className="mt-4">
-            <h4 className="text-base font-semibold mb-2 text-gray-700">Geo</h4>
+            <h4 className="text-base font-semibold mb-2 text-pink-600">Geo</h4>
             <div className="space-y-1">
               {GEO_OPTIONS.map((g) => (
-                <label key={g} className="flex items-center gap-2 cursor-pointer">
+                <label key={g} className="flex items-center gap-2 cursor-pointer text-blue-700">
                   <input
                     type="radio"
                     name="geo"
                     value={g}
                     checked={geo === g}
                     onChange={() => setGeo(g)}
+                    className="accent-pink-500"
                   />
                   <span>{g}</span>
                 </label>
               ))}
             </div>
           </div>
-          {/* Store */}
           <div className="mt-4">
-            <h4 className="text-base font-semibold mb-2 text-gray-700">Store</h4>
+            <h4 className="text-base font-semibold mb-2 text-pink-600">Store</h4>
             <div className="space-y-1">
               {STORE_OPTIONS.map((s) => (
-                <label key={s} className="flex items-center gap-2 cursor-pointer">
+                <label key={s} className="flex items-center gap-2 cursor-pointer text-blue-700">
                   <input
                     type="radio"
                     name="store"
                     value={s}
                     checked={store === s}
                     onChange={() => setStore(s)}
+                    className="accent-pink-500"
                   />
                   <span>{s}</span>
                 </label>
               ))}
             </div>
           </div>
-          {/* Categories */}
           <div className="mt-4">
-            <h4 className="text-base font-semibold mb-2 text-gray-700">Categories</h4>
+            <h4 className="text-base font-semibold mb-2 text-pink-600">Categories</h4>
             <div className="max-h-32 overflow-y-auto pr-1 space-y-1">
               {CATEGORY_OPTIONS.map((cat) => (
-                <label key={cat} className="flex items-center gap-2 cursor-pointer">
+                <label key={cat} className="flex items-center gap-2 cursor-pointer text-blue-700">
                   <input
                     type="checkbox"
                     value={cat}
                     checked={categories.includes(cat)}
                     onChange={() => handleCategoryChange(cat)}
+                    className="accent-pink-500"
                   />
                   <span>{cat}</span>
                 </label>
               ))}
             </div>
           </div>
-          {/* Footer */}
           <div className="flex items-center justify-between mt-6">
             <button
-              className="text-[#90c51a] py-1 px-2 font-bold"
+              className="text-pink-500 py-1 px-2 font-bold hover:underline"
               onClick={() => {
                 setSort(SORT_OPTIONS[0]);
                 setGeo(GEO_OPTIONS[0]);
@@ -159,7 +157,7 @@ function ProductFilterDropdown({ onApply }) {
               Clear all
             </button>
             <button
-              className="h-10 px-5 bg-[#90c51a] hover:bg-[#7DAC15] transition-all text-white font-semibold rounded-lg"
+              className="h-10 px-5 bg-gradient-to-r from-pink-400 via-pink-500 to-blue-600 hover:opacity-90 transition text-white font-semibold rounded-lg"
               onClick={handleApply}
             >
               Apply

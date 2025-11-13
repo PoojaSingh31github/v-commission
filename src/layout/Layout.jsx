@@ -11,7 +11,7 @@ const Layout = () => {
   const { isSidebarOpen, setIsSidebarOpen, isMobile } = useSidebar();
 
   return (
-    <div className="relative max-h-screen bg-gray-50 flex overflow-auto">
+    <div className="relative max-h-screen bg-gradient-to-br from-pink-50 via-white to-blue-50 flex overflow-auto">
       {/* Sidebar + overlay animation */}
       <AnimatePresence>
         {isSidebarOpen && (
@@ -31,7 +31,7 @@ const Layout = () => {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: isMobile ? -300 : 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-white shadow-2xl md:shadow-none rounded-r-4xl md:rounded-none overflow-hidden`}
+              className={`fixed md:static top-0 left-0 z-40 h-full w-64 bg-gradient-to-br from-pink-50 via-white to-blue-50 shadow-2xl md:shadow-none rounded-r-4xl md:rounded-none overflow-hidden border border-pink-100`}
             >
               <Sidebar onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
             </motion.aside>
@@ -48,10 +48,10 @@ const Layout = () => {
           notificationCount={3}
         />
 
-        <main className="bg-[#F6F6F6] flex-1 overflow-y-auto p-2 md:p-4 lg:p-6 transition-all duration-300">
+        <main className="bg-gradient-to-br from-pink-50 via-white to-blue-50 flex-1 overflow-y-auto p-2 md:p-4 lg:p-6 transition-all duration-300">
           <Outlet />
         </main>
-        <ScrollProgressCircle/>
+        <ScrollProgressCircle />
 
         <Footer />
       </motion.div>

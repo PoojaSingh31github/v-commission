@@ -149,7 +149,7 @@ const AmazonProductDetails = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
-  const product = products.find((p) => p.id === Number(id)); // parseInt fix
+  const product = products.find((p) => p.id === Number(id));
   const { isSidebarOpen } = useSidebar();
 
   if (!product) {
@@ -168,26 +168,23 @@ const AmazonProductDetails = () => {
   const productImages = [product.image, product.hoverImage];
 
   return (
-    <div className={`bg-[#F6F6F6] min-h-screen `}>
-      <div className=" pt-3 px-3 sm:px-4 lg:pl-0">
+    <div className="bg-gradient-to-br from-pink-50 via-white to-blue-50 min-h-screen">
+      <div className="pt-3 px-3 sm:px-4 lg:pl-0">
         {/* Breadcrumbs */}
         <div className="mb-4">
-          <h1 className="text-lg sm:text-2xl font-bold text-[#1E293B] mb-1 sm:mb-2">
+          <h1 className="text-lg sm:text-2xl font-bold text-pink-500 mb-1 sm:mb-2 drop-shadow-sm">
             Amazon Product Details
           </h1>
-          <nav className="flex flex-wrap items-center text-gray-600 text-xs sm:text-sm overflow-hidden">
-            <a
-              href="/amazon/dashboard"
-              className="hover:text-gray-900 truncate"
-            >
+          <nav className="flex flex-wrap items-center text-blue-600 text-xs sm:text-sm overflow-hidden font-medium">
+            <a href="/amazon/dashboard" className="hover:text-blue-900 transition-colors truncate">
               Dashboard
             </a>
             <ChevronRight className="w-3 h-3 mx-1 sm:mx-2" />
-            <a href="/amazon/products" className="hover:text-gray-900 truncate">
+            <a href="/amazon/products" className="hover:text-blue-900 transition-colors truncate">
               Product
             </a>
             <ChevronRight className="w-3 h-3 mx-1 sm:mx-2" />
-            <span className="text-gray-900 font-medium truncate max-w-40 sm:max-w-md">
+            <span className="text-pink-600 font-semibold truncate max-w-40 sm:max-w-md">
               {product.title}
             </span>
           </nav>
@@ -196,16 +193,12 @@ const AmazonProductDetails = () => {
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {/* Left Section */}
-          <div
-            className={`flex flex-col gap-4 relative flex-1 ${
-              isSidebarOpen ? "lg:max-w-[74%]" : "lg:max-w-[80%]"
-            }`}
-          >
+          <div className={`flex flex-col gap-4 relative flex-1 ${isSidebarOpen ? "lg:max-w-[74%]" : "lg:max-w-[80%]"}`}>
             {/* Product Card */}
-            <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col md:flex-row gap-4">
+            <div className="bg-gradient-to-br from-pink-50 via-white to-blue-50 rounded-2xl p-3 sm:p-4 shadow-xl border border-pink-100 flex flex-col md:flex-row gap-4">
               {/* Product Image */}
               <div className="flex-1 flex flex-col">
-                <div className="bg-gray-50 rounded-xl overflow-hidden mb-3 sm:mb-4 w-full flex items-center justify-center aspect-square relative">
+                <div className="relative rounded-xl mb-3 sm:mb-4 w-full flex items-center justify-center aspect-square overflow-hidden border border-blue-100 bg-blue-50">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={selectedImage} // ensures re-render animation
@@ -218,6 +211,10 @@ const AmazonProductDetails = () => {
                       className="w-full h-full object-cover absolute top-0 left-0"
                     />
                   </AnimatePresence>
+                  {/* ASIN Tag */}
+                  <span className="absolute bottom-3 left-3 bg-pink-400/90 text-white text-xs px-3 py-1 rounded-full font-semibold shadow">
+                    ASIN: {product.asin}
+                  </span>
                 </div>
 
                 <div className="flex gap-2 sm:gap-3 mt-auto overflow-x-auto pb-1">
@@ -225,18 +222,14 @@ const AmazonProductDetails = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`rounded-xl cursor-pointer overflow-hidden border p-1 transition-all ${
+                      className={`rounded-xl cursor-pointer overflow-hidden border p-1 transition-all shadow-sm ${
                         selectedImage === index
-                          ? "border-blue-500"
-                          : "border-gray-200 hover:border-gray-300"
+                          ? "border-pink-400"
+                          : "border-blue-100 hover:border-blue-300"
                       }`}
                       style={{ width: 70, height: 70, minWidth: 70 }}
                     >
-                      <img
-                        src={image}
-                        alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover rounded-md"
-                      />
+                      <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover rounded-md" />
                     </button>
                   ))}
                 </div>
@@ -245,85 +238,75 @@ const AmazonProductDetails = () => {
               {/* Product Info */}
               <div className="flex-1 flex flex-col">
                 <div className="flex gap-2 flex-wrap mb-3 sm:mb-4">
-                  <span className="bg-[#FFB800] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm">
+                  <span className="bg-blue-500/90 text-white px-2 py-0.5 rounded-lg font-semibold text-xs sm:text-sm shadow-sm">
                     Amazon's Choice
                   </span>
-                  <span className="bg-[#6366F1] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm">
+                  <span className="bg-pink-500/90 text-white px-2 py-0.5 rounded-lg font-semibold text-xs sm:text-sm shadow-sm">
                     Bestseller
                   </span>
-                  <span className="bg-[#8bc34a] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm flex items-center gap-1">
+                  <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-lg font-semibold text-xs sm:text-sm flex items-center gap-1 border border-blue-200">
                     <Truck className="w-3 h-3" />
                     Prime
                   </span>
                 </div>
 
-                <h2 className="text-base sm:text-lg font-bold text-[#263147] mb-3">
+                <h2 className="text-base sm:text-lg font-bold text-blue-800 mb-3">
                   {product.title}
                 </h2>
 
                 <div className="flex items-center mb-3">
                   {Array.from({ length: 4 }).map((_, i) => (
-                    <svg
-                      key={i}
-                      fill="#FFB800"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      height="16"
-                    >
+                    <svg key={i} fill="#ec4899" viewBox="0 0 24 24" width="16" height="16">
                       <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10" />
                     </svg>
                   ))}
-                  <svg fill="gray" viewBox="0 0 24 24" width="16" height="16">
+                  <svg fill="#d1d5db" viewBox="0 0 24 24" width="16" height="16">
                     <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10" />
                   </svg>
-                  <span className="text-xs sm:text-sm font-semibold text-[#263147] ml-2">
-                    {product.rating} ({product.reviewCount} reviews)
+                  <span className="text-xs sm:text-sm font-semibold text-blue-900 ml-2">
+                    {product.rating} ({product.reviewCount.toLocaleString()} reviews)
                   </span>
                 </div>
 
                 <div className="flex items-center mb-4 flex-wrap gap-2">
-                  <span className="text-2xl sm:text-3xl font-semibold text-[#8BC34A]">
-                    ${product.price}
-                  </span>
-                  <span className="text-sm sm:text-md text-gray-400 line-through ml-2">
+                  <span className="text-2xl sm:text-3xl font-bold text-pink-500">${product.price}</span>
+                  <span className="text-sm sm:text-md text-blue-400 line-through ml-2">
                     ${product.originalPrice}
                   </span>
-                  <span className="bg-[#FF6B4A] text-white py-0.5 px-2 rounded-md font-bold text-xs sm:text-sm ml-1">
+                  <span className="bg-blue-500/90 text-white py-0.5 px-2 rounded-md font-bold text-xs sm:text-sm ml-1 shadow-sm">
                     {product.discount}% off
                   </span>
                 </div>
 
-                <div className="font-bold text-[#263147] mb-1">ASIN</div>
-                <div className="bg-[#e7f5d9] text-[#8BC34A] font-semibold rounded-md px-3 py-1 mb-2 text-xs sm:text-sm inline-block">
+                <div className="font-bold text-blue-900 mb-1">ASIN</div>
+                <div className="bg-pink-50 text-pink-500 font-semibold rounded-full px-3 py-1 mb-2 text-xs sm:text-sm inline-block shadow">
                   {product.asin}
                 </div>
 
                 <div className="mb-3">
-                  <div className="font-bold text-[#263147] mb-1">Category</div>
-                  <span className="bg-gray-200 text-[#263147] rounded px-2 py-0.5 text-xs sm:text-sm font-semibold inline-block">
+                  <div className="font-bold text-blue-900 mb-1">Category</div>
+                  <span className="bg-blue-50 text-blue-700 rounded px-2 py-0.5 text-xs sm:text-sm font-semibold inline-block border border-blue-100">
                     {product.category}
                   </span>
                 </div>
 
-                <div className="font-bold text-[#263147] mb-2">
+                <div className="font-bold text-blue-900 mb-2">
                   Commission Info
                 </div>
-                <div className="bg-[#ecece9] rounded-lg px-3 py-2 flex justify-between items-center mb-2 text-sm sm:text-md">
-                  <span className="text-[#263147] font-medium">Rate:</span>
-                  <span className="text-[#8BC34A] font-bold">
+                <div className="bg-gradient-to-r from-pink-100 to-blue-50 rounded-lg px-3 py-2 flex justify-between items-center mb-2 text-sm sm:text-md border border-pink-100">
+                  <span className="text-blue-900 font-medium">Rate:</span>
+                  <span className="text-pink-500 font-bold">
                     {product.commission}%
                   </span>
                 </div>
-                <div className="bg-[#ecece9] rounded-lg px-3 py-2 flex justify-between items-center text-sm sm:text-md">
-                  <span className="text-[#263147] font-medium">
-                    Est. Payout:
-                  </span>
-                  <span className="text-[#8BC34A] font-bold">
+                <div className="bg-gradient-to-r from-pink-100 to-blue-50 rounded-lg px-3 py-2 flex justify-between items-center text-sm sm:text-md border border-blue-100">
+                  <span className="text-blue-900 font-medium">Est. Payout:</span>
+                  <span className="text-blue-500 font-bold">
                     ${product.estimatedPayout}
                   </span>
                 </div>
 
-                <button className="bg-[linear-gradient(135deg,#8bc34a,#689f38)] hover:opacity-90 text-white rounded-lg w-full py-2 font-bold text-sm sm:text-md flex justify-center items-center gap-2 mt-4">
+                <button className="bg-gradient-to-r from-pink-400 via-pink-500 to-blue-500 hover:opacity-90 text-white rounded-lg w-full py-2 font-bold text-sm sm:text-md flex justify-center items-center gap-2 mt-4 shadow-md hover:from-pink-500 hover:to-blue-600 transition-all">
                   <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 mr-1" />
                   Generate Tracking Link
                 </button>
@@ -336,10 +319,10 @@ const AmazonProductDetails = () => {
 
           {/* Right Sidebar */}
           <div className="lg:fixed lg:top-20 right-0 lg:h-[calc(100vh-6rem)] overflow-y-auto lg:w-[21%] w-full mr-1 flex flex-col gap-[7px] mt-4 lg:mt-0">
-            <CommissionCard price={product.price} commission={3.2} />
+            <CommissionCard price={product.price} commission={product.commission} />
             <ProductStatusCard
               status="Active"
-              brand="Shoes"
+              brand={product.category}
               createdDate="11/11/2025"
               updatedDate="11/11/2025"
             />
