@@ -4,6 +4,8 @@ import CommissionCard from "./CommisionCard";
 import ProductStatusCard from "./ProductStatusCard";
 import ProductDescription from "./ProductDescription";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSidebar } from "../context/SidebarContext";
+import { motion, AnimatePresence } from "framer-motion"; // <-- add this import at top
 
 const products = [
   {
@@ -104,8 +106,7 @@ const products = [
     hoverImage:
       "https://azaffiliates-dashboard-dev.web.app/assets/images/ecommerce/10.jpg",
     asin: "B071CQ5LB3",
-    title:
-      "RENPHO Smart Scale for Body Weight, Large VA Display Bluetooth App",
+    title: "RENPHO Smart Scale for Body Weight, Large VA Display Bluetooth App",
     rating: 4.7,
     reviewCount: 212565,
     seller: "RENPHO",
@@ -149,6 +150,7 @@ const AmazonProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const product = products.find((p) => p.id === Number(id)); // parseInt fix
+  const { isSidebarOpen } = useSidebar();
 
   if (!product) {
     return (
@@ -163,24 +165,29 @@ const AmazonProductDetails = () => {
       </div>
     );
   }
-
-  // Combine product images into array
   const productImages = [product.image, product.hoverImage];
 
   return (
-    <div className="bg-[#F6F6F6] min-h-screen">
-      <div className="max-w-7xl mx-auto pt-4 pb-8 px-2 sm:px-4">
+    <div className={`bg-[#F6F6F6] min-h-screen `}>
+      <div className=" pt-3 px-3 sm:px-4 lg:pl-0">
         {/* Breadcrumbs */}
         <div className="mb-4">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#1E293B] mb-2">
+          <h1 className="text-lg sm:text-2xl font-bold text-[#1E293B] mb-1 sm:mb-2">
             Amazon Product Details
           </h1>
-          <nav className="flex flex-wrap items-center text-gray-600 text-sm">
-            <a href="/amazon/dashboard" className="hover:text-gray-900">Dashboard</a>
-            <ChevronRight className="w-4 h-4 mx-2" />
-            <a href="/amazon/products" className="hover:text-gray-900">Product</a>
-            <ChevronRight className="w-4 h-4 mx-2" />
-            <span className="text-gray-900 font-medium truncate max-w-md">
+          <nav className="flex flex-wrap items-center text-gray-600 text-xs sm:text-sm overflow-hidden">
+            <a
+              href="/amazon/dashboard"
+              className="hover:text-gray-900 truncate"
+            >
+              Dashboard
+            </a>
+            <ChevronRight className="w-3 h-3 mx-1 sm:mx-2" />
+            <a href="/amazon/products" className="hover:text-gray-900 truncate">
+              Product
+            </a>
+            <ChevronRight className="w-3 h-3 mx-1 sm:mx-2" />
+            <span className="text-gray-900 font-medium truncate max-w-40 sm:max-w-md">
               {product.title}
             </span>
           </nav>
@@ -189,31 +196,47 @@ const AmazonProductDetails = () => {
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
           {/* Left Section */}
-          <div className="flex flex-col gap-4 relative lg:max-w-[75%] flex-1">
+          <div
+            className={`flex flex-col gap-4 relative flex-1 ${
+              isSidebarOpen ? "lg:max-w-[74%]" : "lg:max-w-[80%]"
+            }`}
+          >
             {/* Product Card */}
-            <div className="bg-white rounded-2xl p-4 shadow-sm flex flex-col md:flex-row gap-4">
+            <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm flex flex-col md:flex-row gap-4">
               {/* Product Image */}
               <div className="flex-1 flex flex-col">
-                <div className="bg-gray-50 rounded-xl overflow-hidden mb-4 w-full flex items-center justify-center aspect-square">
-                  <img
-                    src={productImages[selectedImage]}
-                    alt={product.title}
-                    className="w-full h-full object-cover"
-                  />
+                <div className="bg-gray-50 rounded-xl overflow-hidden mb-3 sm:mb-4 w-full flex items-center justify-center aspect-square relative">
+                  <AnimatePresence mode="wait">
+                    <motion.img
+                      key={selectedImage} // ensures re-render animation
+                      src={productImages[selectedImage]}
+                      alt={product.title}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
+                      className="w-full h-full object-cover absolute top-0 left-0"
+                    />
+                  </AnimatePresence>
                 </div>
-                <div className="flex gap-3 mt-auto overflow-x-auto">
+
+                <div className="flex gap-2 sm:gap-3 mt-auto overflow-x-auto pb-1">
                   {productImages.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`rounded-xl overflow-hidden border p-1 transition-all ${
+                      className={`rounded-xl cursor-pointer overflow-hidden border p-1 transition-all ${
                         selectedImage === index
                           ? "border-blue-500"
                           : "border-gray-200 hover:border-gray-300"
                       }`}
-                      style={{ width: 84, height: 84, minWidth: 84 }}
+                      style={{ width: 70, height: 70, minWidth: 70 }}
                     >
-                      <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover rounded-md" />
+                      <img
+                        src={image}
+                        alt={`Thumbnail ${index + 1}`}
+                        className="w-full h-full object-cover rounded-md"
+                      />
                     </button>
                   ))}
                 </div>
@@ -221,73 +244,87 @@ const AmazonProductDetails = () => {
 
               {/* Product Info */}
               <div className="flex-1 flex flex-col">
-                <div className="flex gap-2 flex-wrap mb-4">
-                  <span className="bg-[#FFB800] text-white px-3 py-1 rounded-md font-semibold text-sm">
+                <div className="flex gap-2 flex-wrap mb-3 sm:mb-4">
+                  <span className="bg-[#FFB800] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm">
                     Amazon's Choice
                   </span>
-                  <span className="bg-[#6366F1] text-white px-3 py-1 rounded-md font-semibold text-sm">
+                  <span className="bg-[#6366F1] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm">
                     Bestseller
                   </span>
-                  <span className="bg-[#8bc34a] text-white px-3 py-1 rounded-md font-semibold text-sm flex items-center gap-1">
+                  <span className="bg-[#8bc34a] text-white px-2 py-0.5 rounded-md font-semibold text-xs sm:text-sm flex items-center gap-1">
                     <Truck className="w-3 h-3" />
                     Prime
                   </span>
                 </div>
 
-                <h2 className="text-lg font-bold text-[#263147] mb-4">{product.title}</h2>
+                <h2 className="text-base sm:text-lg font-bold text-[#263147] mb-3">
+                  {product.title}
+                </h2>
 
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-3">
                   {Array.from({ length: 4 }).map((_, i) => (
-                    <svg key={i} fill="#FFB800" viewBox="0 0 24 24" width="18" height="18">
+                    <svg
+                      key={i}
+                      fill="#FFB800"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      height="16"
+                    >
                       <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10" />
                     </svg>
                   ))}
-                  <svg fill="gray" viewBox="0 0 24 24" width="18" height="18">
+                  <svg fill="gray" viewBox="0 0 24 24" width="16" height="16">
                     <polygon points="12,2 15,10 23,10 17,14 19,22 12,17 5,22 7,14 1,10 9,10" />
                   </svg>
-                  <span className="text-sm font-semibold text-[#263147] ml-2">
+                  <span className="text-xs sm:text-sm font-semibold text-[#263147] ml-2">
                     {product.rating} ({product.reviewCount} reviews)
                   </span>
                 </div>
 
                 <div className="flex items-center mb-4 flex-wrap gap-2">
-                  <span className="text-3xl font-semibold text-[#8BC34A]">
+                  <span className="text-2xl sm:text-3xl font-semibold text-[#8BC34A]">
                     ${product.price}
                   </span>
-                  <span className="text-md text-gray-400 line-through ml-3">
+                  <span className="text-sm sm:text-md text-gray-400 line-through ml-2">
                     ${product.originalPrice}
                   </span>
-                  <span className="bg-[#FF6B4A] text-white py-0.5 px-2 rounded-md font-bold text-sm ml-2">
+                  <span className="bg-[#FF6B4A] text-white py-0.5 px-2 rounded-md font-bold text-xs sm:text-sm ml-1">
                     {product.discount}% off
                   </span>
                 </div>
 
-                <div className="mb-4">
-                  <div className="font-bold text-[#263147] mb-1">ASIN</div>
-                  <div className="bg-[#e7f5d9] text-[#8BC34A] font-semibold rounded-md px-3 py-1 mb-2 text-sm inline-block">
-                    {product.asin}
-                  </div>
+                <div className="font-bold text-[#263147] mb-1">ASIN</div>
+                <div className="bg-[#e7f5d9] text-[#8BC34A] font-semibold rounded-md px-3 py-1 mb-2 text-xs sm:text-sm inline-block">
+                  {product.asin}
                 </div>
 
                 <div className="mb-3">
-                  <div className="font-bold text-[#263147] mb-2">Category</div>
-                  <span className="bg-gray-200 text-[#263147] rounded px-2 py-1 text-sm font-semibold inline-block">
+                  <div className="font-bold text-[#263147] mb-1">Category</div>
+                  <span className="bg-gray-200 text-[#263147] rounded px-2 py-0.5 text-xs sm:text-sm font-semibold inline-block">
                     {product.category}
                   </span>
                 </div>
 
-                <div className="font-bold text-[#263147] mb-2">Commission Information</div>
-                <div className="bg-[#ecece9] rounded-lg px-4 py-3 flex justify-between items-center mb-2">
-                  <span className="text-[#263147] font-medium text-md">Commission Rate:</span>
-                  <span className="text-[#8BC34A] font-bold text-md">{product.commission}%</span>
+                <div className="font-bold text-[#263147] mb-2">
+                  Commission Info
                 </div>
-                <div className="bg-[#ecece9] rounded-lg px-4 py-3 flex justify-between items-center">
-                  <span className="text-[#263147] font-medium text-md">Est. Payout:</span>
-                  <span className="text-[#8BC34A] font-bold text-md">${product.estimatedPayout}</span>
+                <div className="bg-[#ecece9] rounded-lg px-3 py-2 flex justify-between items-center mb-2 text-sm sm:text-md">
+                  <span className="text-[#263147] font-medium">Rate:</span>
+                  <span className="text-[#8BC34A] font-bold">
+                    {product.commission}%
+                  </span>
+                </div>
+                <div className="bg-[#ecece9] rounded-lg px-3 py-2 flex justify-between items-center text-sm sm:text-md">
+                  <span className="text-[#263147] font-medium">
+                    Est. Payout:
+                  </span>
+                  <span className="text-[#8BC34A] font-bold">
+                    ${product.estimatedPayout}
+                  </span>
                 </div>
 
-                <button className="bg-[linear-gradient(135deg,#8bc34a,#689f38)] hover:opacity-90 text-white rounded-lg w-full py-2 font-bold text-md flex justify-center items-center gap-2 mt-5">
-                  <ExternalLink className="w-6 h-6 mr-1" />
+                <button className="bg-[linear-gradient(135deg,#8bc34a,#689f38)] hover:opacity-90 text-white rounded-lg w-full py-2 font-bold text-sm sm:text-md flex justify-center items-center gap-2 mt-4">
+                  <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 mr-1" />
                   Generate Tracking Link
                 </button>
               </div>
@@ -298,7 +335,7 @@ const AmazonProductDetails = () => {
           </div>
 
           {/* Right Sidebar */}
-          <div className="lg:fixed lg:h-[90vh] lg:overflow-auto lg:top-46 lg:right-0 lg:w-[20%] w-full shrink-0 flex flex-col gap-4 mr-2">
+          <div className="lg:fixed lg:top-20 right-0 lg:h-[calc(100vh-6rem)] overflow-y-auto lg:w-[21%] w-full mr-1 flex flex-col gap-[7px] mt-4 lg:mt-0">
             <CommissionCard price={product.price} commission={3.2} />
             <ProductStatusCard
               status="Active"

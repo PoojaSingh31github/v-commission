@@ -7,7 +7,6 @@ import AmazonProductDetails from "./components/AmazoneDetails";
 
 function App() {
   return (
-    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/amazon/dashboard" replace />} />
         <Route element={<Layout />}>
@@ -17,7 +16,6 @@ function App() {
           
         </Route>
       </Routes>
-    </BrowserRouter>
   );
 }
 

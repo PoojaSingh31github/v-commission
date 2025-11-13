@@ -1,5 +1,5 @@
 const ProductStatusCard = ({ status, brand, createdDate, updatedDate }) => (
-  <div className="bg-white rounded-2xl shadow p-6 mb-4">
+  <div className="bg-white rounded-2xl shadow p-4 mb-4">
     <h2 className="text-lg font-semibold text-[#1E293B] mb-4">Product Status</h2>
     <div className="flex justify-between items-center mb-3">
       <span className="text-[#223355] font-medium text-md">Status:</span>

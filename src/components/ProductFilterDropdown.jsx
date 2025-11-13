@@ -66,7 +66,7 @@ function ProductFilterDropdown({ onApply }) {
   return (
     <div className="relative" ref={ref}>
       <button
-        className="h-12 px-7 bg-[#90c51a] hover:bg-[#7DAC15] transition-all text-white font-semibold text-lg rounded-lg shadow-sm flex items-center gap-2"
+        className="py-2 px-7 bg-[#90c51a] hover:bg-[#7DAC15] transition-all text-white font-semibold text-md rounded-lg shadow-sm flex items-center gap-2"
         onClick={() => setOpen((o) => !o)}
         type="button"
       >

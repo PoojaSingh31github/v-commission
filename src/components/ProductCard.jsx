@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Heart, Eye, ExternalLink, Barcode } from "lucide-react";
 import { FaGoogle, FaYoutube, FaFacebook, FaInstagram } from "react-icons/fa";
 
@@ -7,28 +8,56 @@ const ProductCard = ({ product, onClick, index }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg cursor-pointer overflow-hidden"
+    <motion.div
+      className="relative max-w-2xl mx-auto bg-white rounded-2xl shadow-lg cursor-pointer overflow-hidden group"
       onClick={() => onClick(index)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div
-        className="relative"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <img
+      {/* Shine effect */}
+      <motion.div
+        className="absolute inset-0 z-10 pointer-events-none overflow-hidden rounded-2xl"
+        initial={{ background: "transparent" }}
+        animate={
+          isHovered
+            ? {
+                background:
+                  "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 70%)",
+                backgroundPosition: ["200% 0", "-200% 0"],
+              }
+            : { background: "transparent" }
+        }
+        transition={{ duration: 1.2, ease: "easeInOut" }}
+        style={{
+          backgroundSize: "200% 200%",
+          maskImage: "linear-gradient(120deg, transparent 30%, black 50%, transparent 70%)",
+        }}
+      ></motion.div>
+
+      {/* Image Section */}
+      <div className="relative">
+        <motion.img
+          key={isHovered ? product.hoverImage : product.image}
           src={isHovered ? product.hoverImage : product.image}
           alt={product.title}
-          className="w-full h-56 object-cover transition-all duration-500"
+          className="w-full h-56 object-cover transition-all duration-700 ease-in-out"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: .8, ease: "easeInOut" }}
         />
 
+        {/* ASIN Tag */}
         <div className="absolute top-4 left-4 bg-gray-700/30 backdrop-blur-sm text-white px-2 py-1 rounded-lg flex items-center gap-2">
           <Barcode className="w-4 h-4" />
           <span className="font-semibold text-sm">ASIN: {product.asin}</span>
         </div>
 
+        {/* Favorite Button */}
         <button
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFavorite(!isFavorite);
+          }}
           className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
             isFavorite
               ? "bg-red-500 hover:bg-red-600"
@@ -42,7 +71,8 @@ const ProductCard = ({ product, onClick, index }) => {
         </button>
       </div>
 
-      <div className="p-4">
+      {/* Content Section */}
+      <div className="p-4 relative z-20">
         <h2 className="text-md font-medium text-gray-800 mb-3 line-clamp-2">
           {product.title}
         </h2>
@@ -154,7 +184,7 @@ const ProductCard = ({ product, onClick, index }) => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

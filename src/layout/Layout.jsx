@@ -1,23 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { useSidebar } from "../context/SidebarContext";
+import ScrollProgressCircle from "../components/ScrollProgressCircle";
 
 const Layout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const { isSidebarOpen, setIsSidebarOpen, isMobile } = useSidebar();
 
   return (
-    <div className="relative max-h-screen  bg-gray-50 flex overflow-auto">
+    <div className="relative max-h-screen bg-gray-50 flex overflow-auto">
       {/* Sidebar + overlay animation */}
       <AnimatePresence>
         {isSidebarOpen && (
@@ -46,12 +40,7 @@ const Layout = () => {
       </AnimatePresence>
 
       {/* Main content */}
-      <motion.div
-        className="flex-1 flex flex-col transition-all duration-300"
-        // animate={{
-        //   marginLeft: !isMobile && isSidebarOpen ? 256 : 0,
-        // }}
-      >
+      <motion.div className="flex-1 flex flex-col transition-all duration-300">
         <Header
           onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
           isSidebarOpen={isSidebarOpen}
@@ -59,9 +48,10 @@ const Layout = () => {
           notificationCount={3}
         />
 
-        <main className="bg-[#F6F6F6] flex-1 overflow-y-auto p-6 transition-all duration-300">
+        <main className="bg-[#F6F6F6] flex-1 overflow-y-auto p-2 md:p-4 lg:p-6 transition-all duration-300">
           <Outlet />
         </main>
+        <ScrollProgressCircle/>
 
         <Footer />
       </motion.div>
